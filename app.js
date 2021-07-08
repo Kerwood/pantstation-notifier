@@ -11,11 +11,13 @@ const pushover = new Push({
 })
 
 // Send Pushover notification
-const sendNotification = (message) => {
-  pushover.send({
-    title: 'Pant Station',
-    message: message
-  })
+const processStatus = (status) => {
+  if (state.status !== status) {
+    pushover.send({ title: 'Pant Station', message: status })
+    state.status = status
+    console.log(new Date() + ' :: State has changed, sending notification.')
+    console.log(new Date() + ' :: ' + status)
+  }
 }
 
 // Get status text from website.
@@ -29,19 +31,12 @@ const getStatus = () => {
 
 // Get and send status on first run.
 getStatus()
-  .then(status => sendNotification(status))
+  .then(status => processStatus(status))
   .catch(err => console.error(err.message))
 
 // Get status and send it if its different than the existing status.
 setInterval(() => {
   getStatus()
-    .then(status => {
-      if (state.status !== status) {
-        sendNotification(status)
-        state.status = status
-        console.log(new Date() + ' :: State has changed, sending notification.')
-        console.log(new Date() + ' :: ' + status)
-      }
-    })
+    .then(status => processStatus(status))
     .catch(err => console.error(err.message))
 }, 300000)
