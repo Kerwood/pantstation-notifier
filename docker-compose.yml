@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  pantstation:
+    image: pantstation
+    container_name: pantstation
+    restart: unless-stopped
+    environment:
+      - PUSHOVER_APP_TOKEN=<token-here>
+      - PUSHOVER_USER_KEY=<user-key-here>
+      - URL=https://danskretursystem.dk/pantstation/herning
