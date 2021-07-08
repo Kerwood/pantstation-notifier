@@ -5,3 +5,21 @@ Applikationen skal bruge 3 environment variabler, `PUSHOVER_APP_TOKEN`, `PUSHOVE
 
 Nedenstående er status teksten som bliver scrapet.
 ![](./screenshot.png)
+
+
+## Build and run
+```
+git clone https://github.com/Kerwood/pantstation-notifier.git
+cd pantstation-notifier
+docker build -t pantstation .
+```
+
+```
+docker run --rm \
+  --name pantstation \
+  -e PUSHOVER_APP_TOKEN=<token-here> \
+  -e PUSHOVER_USER_KEY=<user-key-here> \
+  -e URL=https://danskretursystem.dk/pantstation/herning  \
+  --restart unless-stopped \
+  -d pantstation
+```
